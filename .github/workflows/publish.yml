@@ -9,11 +9,28 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Push dr4n docker image
-      run: |
-        echo $CR_PAT | docker login ghcr.io -u MarkusGnigler --password-stdin && \
-        docker build --tag n4d . && \
-        docker push ghcr.io/MarkusGnigler/n4d:latest
-      # docker push n4d
-      env:
-        CR_PAT: ${{ secrets.CR_PAT }}
+    # - name: Push dr4n docker image
+    #   run: |
+    #     echo $CR_PAT | docker login ghcr.io -u MarkusGnigler --password-stdin && \
+    #     docker build --tag n4d . && \
+    #     docker push ghcr.io/MarkusGnigler/n4d:latest
+    #   # docker push n4d
+    #   env:
+    #     CR_PAT: ${{ secrets.CR_PAT }}
+
+    # steps:
+    #   - name: Checkout Code
+    #     uses: actions/checkout@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          push: true # Will only build if this is not here
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.ref }}
+            ghcr.io/${{ github.repository }}:latest
