@@ -11,8 +11,7 @@ jobs:
 
     - name: Push dr4n docker image
       run: |
-        echo $CR_PAT 
-          | docker login ghcr.io -u MarkusGnigler --password-stdin && \
+        echo $CR_PAT | docker login ghcr.io -u MarkusGnigler --password-stdin && \
         docker build --tag n4d . && \
         docker push ghcr.io/MarkusGnigler/n4d:latest
       # docker push n4d
