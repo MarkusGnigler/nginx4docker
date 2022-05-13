@@ -1,0 +1,20 @@
+name: publish
+
+on: [push]
+
+jobs:
+  push-dr4n:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Push dr4n docker image
+      run: |
+        echo $CR_PAT 
+          | docker login ghcr.io -u MarkusGnigler --password-stdin && \
+        docker build --tag n4d . && \
+        docker push ghcr.io/MarkusGnigler/n4d:latest
+      # docker push n4d
+      env:
+        CR_PAT: ${{ secrets.CR_PAT }}
