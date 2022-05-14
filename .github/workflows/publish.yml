@@ -30,10 +30,10 @@ jobs:
 #         docker build --tag ghcr.io/markusgnigler/n4d:latest . && \
 #         docker push ghcr.io/markusgnigler/n4d:latest
       run: |
-        docker buildx build `
-          --platform linux/amd64,linux/arm64,linux/arm/v7 `
-          --tag ghcr.io/markusgnigler/n4d:latest `
-          --push `
+        docker buildx build \
+          --platform linux/amd64,linux/arm64,linux/arm/v7 \
+          --tag ghcr.io/markusgnigler/n4d:latest \
+          --push \
           .
         
       # docker push n4d
