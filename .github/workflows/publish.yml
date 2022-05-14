@@ -25,6 +25,10 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN  }}
 
+    - name: Swicth docker driver
+      run: |
+        docker buildx create --use
+
     - name: Push dr4n docker image
 #       run: |
 #         docker build --tag ghcr.io/markusgnigler/n4d:latest . && \
