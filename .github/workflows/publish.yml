@@ -26,9 +26,16 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN  }}
 
     - name: Push dr4n docker image
+#       run: |
+#         docker build --tag ghcr.io/markusgnigler/n4d:latest . && \
+#         docker push ghcr.io/markusgnigler/n4d:latest
       run: |
-        docker build --tag ghcr.io/markusgnigler/n4d:latest . && \
-        docker push ghcr.io/markusgnigler/n4d:latest
+        docker buildx build `
+          --platform linux/amd64,linux/arm64,linux/arm/v7 `
+          --tag ghcr.io/markusgnigler/n4d:latest `
+          --push `
+          .
+        
       # docker push n4d
 
     # - name: Build and Push Docker Image
