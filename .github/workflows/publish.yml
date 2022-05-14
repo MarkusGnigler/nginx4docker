@@ -21,17 +21,10 @@ jobs:
         docker buildx create --use
 
     - name: Push dr4n image
-#       run: |
-#         docker buildx build \
-#           --platform linux/amd64,linux/arm64,linux/arm/v7 \
-#           --tag ghcr.io/markusgnigler/n4d:latest \
-#           --tag ghcr.io/markusgnigler/n4d:${{ github.ref }} \
-#           --push \
-#           .
       run: |
         docker buildx build \
           --platform linux/amd64,linux/arm64,linux/arm/v7 \
-          --tag ghcr.io/${{ github.actor }}/n4d:latest \
-          --tag ghcr.io/${{ github.actor }}/n4d:${{ github.ref }} \
+          --tag ghcr.io/markusgnigler/n4d:latest \
+          --tag ghcr.io/markusgnigler/n4d:${{ github.ref }} \
           --push \
           .
