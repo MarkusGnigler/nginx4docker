@@ -1,0 +1,30 @@
+name: publish
+
+on: [push]
+
+jobs:
+  push-dr4n:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN  }}
+
+    - name: Switch docker driver
+      run: |
+        docker buildx create --use
+
+    - name: Push dr4n image
+      run: |
+        docker buildx build \
+          --platform linux/amd64,linux/arm64,linux/arm/v7 \
+          --tag ghcr.io/markusgnigler/n4d:latest \
+          --push \
+          .
+      #--tag ghcr.io/markusgnigler/n4d:${{ github.ref }} \

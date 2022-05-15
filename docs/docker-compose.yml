@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+
+  proxy:
+    image: ghcr.io/MarkusGnigler/n4d:latest
+    container_name: proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./www:/var/www
+      - ./nginx/vhost.d:/etc/nginx/vhost.d
+      - ./nginx/conf.d:/etc/nginx/conf.d
