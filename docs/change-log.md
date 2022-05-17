@@ -23,3 +23,43 @@
     mkdir /etc/nginx/vhost.d && \
     sed -i 's|#gzip  on;|#gzip  on; \n    include /etc/nginx/vhost.d/*.conf;|g' /etc/nginx/nginx.conf
     ```
+
+- Hardening docker
+    To prevent root access i switch to nginx user and map all file patrhs to `/tmp`
+    ```dockerfile
+    USER nginx
+    ```
+
+    ```bash
+    sed -i 's|user  nginx;||g' /etc/nginx/nginx.conf && \
+    sed -i 's|pid        /var/run/nginx.pid;|pid        /tmp/nginx.pid;|g' /etc/nginx/nginx.conf && \
+    ```
+
+    ```bash
+            echo $'\
+    client_body_temp_path /tmp/client_body;\n\
+    fastcgi_temp_path /tmp/fastcgi_temp;\n\
+    proxy_temp_path /tmp/proxy_temp;\n\
+    scgi_temp_path /tmp/scgi_temp;\n\
+    uwsgi_temp_path /tmp/uwsgi_temp;\n\
+        ' > /etc/nginx/conf.d/cache-file-options.conf
+    ```
+
+- Add general valid configs for gzip and ssl
+    ```bash
+        echo $'\
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE\n\
+    ssl_prefer_server_ciphers on;\n\
+        ' > /etc/nginx/conf.d/ssl.conf
+    ```
+    ```bash
+        echo $'\
+    gzip  on;\
+        ' > /etc/nginx/conf.d/gzip.conf
+    ```
+
+- Remove version number `server_tokens off;`
+
+    ```bash
+    sed -i 's|http {|http {\n    server_tokens off;|g' /etc/nginx/nginx.conf
+    ```
