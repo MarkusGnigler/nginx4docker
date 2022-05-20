@@ -59,7 +59,7 @@ EXPOSE \
     443
 
 COPY --chown=nginx:nginx envsubst.sh /envsubst.sh
-COPY --chown=nginx:nginx ENVSUB /ENVSUB
+COPY --chown=nginx:nginx ENV /ENV
 RUN chmod +x /envsubst.sh && \
     chmod 0777 /etc/nginx/vhost.d
 
