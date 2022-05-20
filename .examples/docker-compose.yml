@@ -8,7 +8,9 @@ services:
     ports:
       - 80:80
       - 443:443
+    environment:
+      HOST_IP: 127.0.0.1
     volumes:
       - ./www:/var/www
-      - ./nginx/vhost.d:/etc/nginx/vhost.d
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      # - ./conf.d:/etc/nginx/conf.d
+      - ./vhost.d:/etc/nginx/vhost.d
