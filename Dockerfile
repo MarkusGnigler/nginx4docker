@@ -19,7 +19,7 @@ RUN \
     sed -i 's|/var/log/nginx/error.log notice|/dev/stdout warn|g' /etc/nginx/nginx.conf && \
     # Set access logging to StdOut
     sed -i 's|/var/log/nginx/access.log|/dev/stdout|g' /etc/nginx/nginx.conf && \
-    # Import vhosts from vhost.d
+    # Import vhosts from vhost.d and remove default.conf
     rm -f /etc/nginx/conf.d/default.conf && \
     mkdir /etc/nginx/vhost.d && \
     sed -i 's|#gzip  on;|include /etc/nginx/vhost.d/*.conf;|g' /etc/nginx/nginx.conf && \
@@ -59,7 +59,8 @@ EXPOSE \
     443
 
 COPY --chown=nginx:nginx envsubst.sh /envsubst.sh
-RUN chmod +x /envsubst.sh
+RUN chmod +x /envsubst.sh && \
+    chmod 0777 /etc/nginx/vhost.d
 
 USER nginx
 
