@@ -60,5 +60,6 @@ EXPOSE \
 
 USER nginx
 
-ENTRYPOINT [ "tini", "-g", "--" ]
+COPY envsubst.sh /envsubst.sh
+ENTRYPOINT [ "/envsubst.sh", "tini", "-g", "--" ]
 CMD [ "nginx", "-g", "daemon off;" ]

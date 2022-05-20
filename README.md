@@ -29,6 +29,6 @@ It extends the original nginx container and create a new tag on every release fr
 
 ## Environment variables
 
-This container prepares a variable `SERVER_IP` that you can use in all `.conf` files for handling the host ip address.
+This container prepares a variable `HOST_IP` that you can use in all `.conf` files for handling the host ip address.
 
 Timezone can be set trough `TZ` as usual.
