@@ -5,7 +5,9 @@ docker run -it --rm \
     --publish 80:80 \
     --publish 443:443 \
     --env NGINX_HOST=127.0.0.1 \
-    --volume ${PWD}/www:/var/www \
+    --env NGINX_DOMAIN=www.example.com \
+    --env NGINX_CERT=example.com \
+    --volume $(pwd)/www:/var/www \
     --volume $(pwd)/vhost.d:/etc/nginx/vhost.d \
     ghcr.io/markusgnigler/n4d:latest
 
