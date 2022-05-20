@@ -33,8 +33,10 @@ The main purpose is to have a distribution and docker ready nginx container.
 
 ## Environment variables
 
-- $TZ
+- $TZ<br>
     Set's the timezone of this container (required in particular for logging)
 
-- $HOST_IP
-    This variable will be replaced on startup in all `vhost.d/*.conf` files
+- This variable will be replaced on startup in all `vhost.d/*.conf` files<br>
+    * $NGINX_HOST or ${NGINX_HOST}
+    * $NGINX_DOMAIN or ${NGINX_DOMAIN}
+    * $NGINX_CERT or ${NGINX_CERT}

@@ -67,4 +67,6 @@
 - Add envsubst
     The following variables will be replaced
 
-    * $HOST_IP or ${HOST_IP}
+    * $NGINX_HOST or ${NGINX_HOST}
+    * $NGINX_DOMAIN or ${NGINX_DOMAIN}
+    * $NGINX_CERT or ${NGINX_CERT}
