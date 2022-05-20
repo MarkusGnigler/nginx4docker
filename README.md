@@ -1,9 +1,13 @@
 
 # NginxForDocker a Docker Ready Nginx Image
 
-n4d is a distribution and docker ready nginx container.
+n4d extends the original nginx container.
 
-It extends the original nginx container and create a new tag on every release from original nginx.
+The main purpose is to have a distribution and docker ready nginx container.
+
+<!-- n4d is a distribution and docker ready nginx container. -->
+
+<!-- It extends the original nginx container and create a new tag on every release from original nginx. -->
 
 ## Extensions
 
@@ -29,6 +33,8 @@ It extends the original nginx container and create a new tag on every release fr
 
 ## Environment variables
 
-This container prepares a variable `HOST_IP` that you can use in all `.conf` files for handling the host ip address.
+- $TZ
+    Set's the timezone of this container (required in particular for logging)
 
-Timezone can be set trough `TZ` as usual.
+- $HOST_IP
+    This variable will be replaced on startup in all `vhost.d/*.conf` files
