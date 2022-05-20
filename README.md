@@ -5,6 +5,9 @@ n4d extends the original nginx container.
 
 The main purpose is to have a distribution and docker ready nginx container.
 
+n4d could also be extended with your custom env variables. 
+only mount a file that lists all your env variables to docker `... --mount $(pwd)/CUSTOM_ENV:/ENV ...`
+
 <!-- n4d is a distribution and docker ready nginx container. -->
 
 <!-- It extends the original nginx container and create a new tag on every release from original nginx. -->
