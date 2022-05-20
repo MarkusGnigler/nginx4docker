@@ -58,8 +58,7 @@ EXPOSE \
     80 \
     443
 
-COPY envsubst.sh /envsubst.sh
-RUN chmod +x envsubst.sh
+COPY --chown=nginx:nginx envsubst.sh /envsubst.sh
 
 USER nginx
 
