@@ -14,7 +14,7 @@ only mount a file that lists all your env variables to docker `... --mount $(pwd
 
 ## Usage
 
-Grab the image from github contianer registry
+Grab the image from github container registry
 
 ```bash
 docker pull ghcr.io/markusgnigler/n4d:1.0
@@ -45,7 +45,7 @@ More examples are in the .examples folder of this repository.
 ## Extensions
 
 - Logging
-    I decide after i run a while the bare nginx container to follow docker's best practice and logg all nginx logs to StdOut
+    I decide after i run a while the bare nginx container to follow docker's best practice and log all nginx logs to StdOut
 
 - Configuration folder
     To configure the base webserver you can create `.conf` files in conf.d folder.
