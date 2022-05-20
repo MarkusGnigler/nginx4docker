@@ -12,6 +12,36 @@ only mount a file that lists all your env variables to docker `... --mount $(pwd
 
 <!-- It extends the original nginx container and create a new tag on every release from original nginx. -->
 
+## Usage
+
+Grab the image from github contianer registry
+
+```bash
+docker pull ghcr.io/markusgnigler/n4d:1.0
+```
+
+Example docker-compose.yml
+
+```yml
+version: '3'
+
+services:
+
+  proxy:
+    image: ghcr.io/markusgnigler/n4d:latest
+    container_name: proxy
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      NGINX_HOST: 127.0.0.1
+    volumes:
+      - ./www:/var/www
+      - ./vhost.d:/etc/nginx/vhost.d
+```
+
+More examples are in the .examples folder of this repository.
+
 ## Extensions
 
 - Logging

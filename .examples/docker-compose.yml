@@ -9,7 +9,7 @@ services:
       - 80:80
       - 443:443
     environment:
-      HOST_IP: 127.0.0.1
+      NGINX_HOST: 127.0.0.1
     volumes:
       - ./www:/var/www
       # - ./conf.d:/etc/nginx/conf.d
