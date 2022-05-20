@@ -1,7 +1,8 @@
 #!/bin/sh
 
 find /etc/nginx/vhost.d -name '*.conf' \
+| rev | awk -v FS='/' '{print $1}' | rev \
 | xargs -i sh -c \
-"envsubst '$(cat /ENV | sed -e 's|^|\\|')' < {} > {}.temp && mv {}.temp {}"
+"envsubst \"$(cat $(pwd)/ENV | sed -e 's|^|\\|')\" < /etc/nginx/vhost.d/{} > /etc/nginx/internal-vhost.d/{}"
 
 exec "$@"

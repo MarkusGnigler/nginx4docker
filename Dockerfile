@@ -22,21 +22,24 @@ RUN \
     # Import vhosts from vhost.d and remove default.conf
     rm -f /etc/nginx/conf.d/default.conf && \
     mkdir /etc/nginx/vhost.d && \
-    sed -i 's|#gzip  on;|include /etc/nginx/vhost.d/*.conf;|g' /etc/nginx/nginx.conf && \
+    mkdir /etc/nginx/internal-vhost.d && \
+    # sed -i 's|#gzip  on;|include /etc/nginx/vhost.d/*.conf;|g' /etc/nginx/nginx.conf && \
+    sed -i 's|#gzip  on;|include /etc/nginx/internal-vhost.d/*.conf;|g' /etc/nginx/nginx.conf && \
+    # sed -i '/vhost.d\/\*.conf;$/{N;s|$|    include /etc/nginx/internal-vhost.d/*.conf;|g}' /etc/nginx/nginx.conf && \
     \
     # Creat custom config
-    mkdir /etc/nginx/custom.d && \
-    sed -i '/vhost.d\/\*.conf;$/{N;s|$|    include /etc/nginx/custom.d/*.conf;|g}' /etc/nginx/nginx.conf && \
+    mkdir /etc/nginx/internal-custom.d && \
+    sed -i '/internal-vhost.d\/\*.conf;$/{N;s|$|\n    include /etc/nginx/internal-custom.d/*.conf;\n|g}' /etc/nginx/nginx.conf && \
     \
     # Create ssl config
     echo $'\
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE\n\
 ssl_prefer_server_ciphers on;\n\
-    ' > /etc/nginx/custom.d/ssl.conf && \
+    ' > /etc/nginx/internal-custom.d/ssl.conf && \
     # Create gzip config
     echo $'\
 gzip  on;\
-    ' > /etc/nginx/custom.d/gzip.conf && \
+    ' > /etc/nginx/internal-custom.d/gzip.conf && \
     \
     # Create temp and cache file options for user nginx
     echo $'\
@@ -45,7 +48,7 @@ fastcgi_temp_path /tmp/fastcgi_temp;\n\
 proxy_temp_path /tmp/proxy_temp;\n\
 scgi_temp_path /tmp/scgi_temp;\n\
 uwsgi_temp_path /tmp/uwsgi_temp;\n\
-    ' > /etc/nginx/custom.d/cache-file-options.conf
+    ' > /etc/nginx/internal-custom.d/cache-file-options.conf
 
 VOLUME [ "/etc/nginx/conf.d" ]
 VOLUME [ "/etc/nginx/vhost.d" ]
@@ -61,7 +64,8 @@ EXPOSE \
 COPY --chown=nginx:nginx envsubst.sh /envsubst.sh
 COPY --chown=nginx:nginx ENV /ENV
 RUN chmod +x /envsubst.sh && \
-    chmod 0777 /etc/nginx/vhost.d
+    chmod 0777 /etc/nginx/vhost.d && \
+    chmod 0777 /etc/nginx/internal-vhost.d
 
 USER nginx
 
