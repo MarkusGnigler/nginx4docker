@@ -29,6 +29,7 @@ jobs:
         docker buildx build \
           --platform linux/amd64,linux/arm64,linux/arm/v7 \
           --tag ghcr.io/markusgnigler/n4d:latest \
+          --tag ghcr.io/markusgnigler/n4d:$(cat VERSION) \
           --push \
           .
       #--tag ghcr.io/markusgnigler/n4d:${{ github.ref }} \
