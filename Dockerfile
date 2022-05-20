@@ -61,5 +61,6 @@ EXPOSE \
 USER nginx
 
 COPY envsubst.sh /envsubst.sh
+RUN chmod +x /envsubst.sh
 ENTRYPOINT [ "/envsubst.sh", "tini", "-g", "--" ]
 CMD [ "nginx", "-g", "daemon off;" ]
