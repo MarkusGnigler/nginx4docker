@@ -7,6 +7,6 @@ docker run -it --rm \
     --env HOST_IP=127.0.0.1 \
     --volume ${PWD}/www:/var/www \
     --volume $(pwd)/vhost.d:/etc/nginx/vhost.d \
-    ghcr.io/MarkusGnigler/n4d:latest
+    ghcr.io/markusgnigler/n4d:latest
 
 exit 0

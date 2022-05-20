@@ -3,7 +3,7 @@ version: '3'
 services:
 
   proxy:
-    image: ghcr.io/MarkusGnigler/n4d:latest
+    image: ghcr.io/markusgnigler/n4d:latest
     container_name: proxy
     ports:
       - 80:80
