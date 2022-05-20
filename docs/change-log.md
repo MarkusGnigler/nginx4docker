@@ -63,3 +63,8 @@
     ```bash
     sed -i 's|http {|http {\n    server_tokens off;|g' /etc/nginx/nginx.conf
     ```
+
+- Add envsubst
+    The following variables will be replaced
+
+    * $HOST_IP or ${HOST_IP}
