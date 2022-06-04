@@ -64,6 +64,23 @@ More examples are in the .examples folder of this repository.
 
 - Remove version number `server_tokens off;`
 
+- Add ssl_ciphers for better ssl communication
+    Create key on first startup
+    ```
+    [ -f "/etc/nginx/ssl/certsdhparam.pem" ] || libressl dhparam -out /etc/nginx/ssl/certsdhparam.pem 4096
+    ```
+
+    Add security header
+    ```
+    ssl_protocols TLSv1.3 TLSv1.2;\n\
+    ssl_prefer_server_ciphers on;\n\
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;\n\
+    \
+    # DH parameters and curve
+    ssl_dhparam /etc/nginx/ssl/certsdhparam.pem;\n\
+    ssl_ecdh_curve secp384r1;\n\
+    ```
+    
 ## Environment variables
 
 - $TZ<br>

@@ -4,10 +4,16 @@ LABEL \
     version=1.0.0 \
     maintainer="Markus Gnigler <markus.gnigler@bit-shifter.at>"
 
+ARG \
+    SSL_ON=true
+
 RUN \
     apk add --no-cache --update \
         tini \
         tzdata \
+        libressl \
+    && \
+    mkdir /etc/letsencrypt \
     && \
     # Remove nginx version
     sed -i 's|http {|http {\n    server_tokens off;|g' /etc/nginx/nginx.conf && \
@@ -32,9 +38,15 @@ RUN \
     sed -i '/internal-vhost.d\/\*.conf;$/{N;s|$|\n    include /etc/nginx/internal-custom.d/*.conf;\n|g}' /etc/nginx/nginx.conf && \
     \
     # Create ssl config
+    mkdir /etc/nginx/ssl && \
     echo $'\
-ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE\n\
+ssl_protocols TLSv1.3 TLSv1.2;\n\
 ssl_prefer_server_ciphers on;\n\
+ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;\n\
+\
+# DH parameters and curve
+ssl_dhparam /etc/nginx/ssl/certsdhparam.pem;\n\
+ssl_ecdh_curve secp384r1;\n\
     ' > /etc/nginx/internal-custom.d/ssl.conf && \
     # Create gzip config
     echo $'\
@@ -52,6 +64,8 @@ uwsgi_temp_path /tmp/uwsgi_temp;\n\
 
 VOLUME [ "/etc/nginx/conf.d" ]
 VOLUME [ "/etc/nginx/vhost.d" ]
+VOLUME [ "/etc/nginx/ssl" ]
+VOLUME [ "etc/letsencrypt" ]
 
 ENV \
     SERVER_IP="" \
@@ -62,12 +76,17 @@ EXPOSE \
     443
 
 COPY --chown=nginx:nginx envsubst.sh /envsubst.sh
+COPY --chown=nginx:nginx entrypoint.sh /entrypoint.sh
 COPY --chown=nginx:nginx ENV /ENV
+
 RUN chmod +x /envsubst.sh && \
+    chmod +x /entrypoint.sh && \
+    chmod 0777 /etc/nginx/ssl && \
     chmod 0777 /etc/nginx/vhost.d && \
+    chmod 0777 -R /etc/letsencrypt && \
     chmod 0777 /etc/nginx/internal-vhost.d
 
 USER nginx
 
-ENTRYPOINT [ "/envsubst.sh", "tini", "-g", "--" ]
+ENTRYPOINT [ "/entrypoint.sh", "tini", "-g", "--" ]
 CMD [ "nginx", "-g", "daemon off;" ]
