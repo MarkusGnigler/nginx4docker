@@ -13,8 +13,10 @@ RUN \
         tzdata \
         libressl \
     && \
-    mkdir /etc/letsencrypt \
-    && \
+    # ssl
+    mkdir /etc/letsencrypt && \
+    cp /etc/ssl1.1/openssl.cnf /etc/ssl/openssl.cnf && \
+    \
     # Remove nginx version
     sed -i 's|http {|http {\n    server_tokens off;|g' /etc/nginx/nginx.conf && \
     \
