@@ -104,6 +104,6 @@ docker exec <CONTAINER_NAME> sh config.sh disable_ssl
     Set's the timezone of this container (required in particular for logging)
 
 - This variable will be replaced on startup in all `vhost.d/*.conf` files<br>
-    * $NGINX_HOST or ${NGINX_HOST}
-    * $NGINX_DOMAIN or ${NGINX_DOMAIN}
-    * $NGINX_CERT or ${NGINX_CERT}
+    * $NGINX_HOST or \${NGINX_HOST}
+    * $NGINX_DOMAIN or \${NGINX_DOMAIN}
+    * $NGINX_CERT or \${NGINX_CERT}
