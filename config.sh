@@ -15,7 +15,7 @@ enable_ssl() {
 create_ssl_headers() {
    echo "Generate nginx config ..."
 
-   cat << EOF > /etc/nginx/internal-custom.d/ssl.conf
+   cat << EOF > /etc/nginx/internal-config.d/ssl.conf
 ssl_protocols TLSv1.3 TLSv1.2;
 ssl_prefer_server_ciphers on;
 ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;
@@ -35,7 +35,7 @@ disable_ssl() {
    echo "Disable ssl ..."
 
    rm -f /etc/nginx/ssl/certsdhparam.pem
-   rm -f /etc/nginx/internal-custom.d/ssl.conf
+   rm -f /etc/nginx/internal-config.d/ssl.conf
    
    echo "SSL disabled."
    echo -e "\n"

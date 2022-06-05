@@ -41,10 +41,10 @@ RUN \
     \
     # Create ssl folder & standard config
     mkdir /etc/nginx/ssl && \
-    echo "\
+    echo $'\
 ssl_protocols TLSv1.3 TLSv1.2;\n\
 ssl_prefer_server_ciphers on;\n\
-    " && \
+    ' > /etc/nginx/internal-config.d/ssl.conf && \
     # Create gzip config
     echo $'\
 gzip  on;\
