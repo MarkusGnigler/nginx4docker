@@ -4,9 +4,6 @@ LABEL \
     version=1.0.0 \
     maintainer="Markus Gnigler <markus.gnigler@bit-shifter.at>"
 
-ARG \
-    SSL_ON=true
-
 RUN \
     apk add --no-cache --update \
         tini \
@@ -79,8 +76,11 @@ RUN \
 USER nginx
 
 ENV \
-    SERVER_IP="" \
-    TZ="Europe/Vienna"
+    TZ="Europe/Vienna" \
+    \
+    NGINX_HOST='' \
+    NGINX_DOMAIN='' \
+    NGINX_CERT=''
 
 EXPOSE \
     80 \
