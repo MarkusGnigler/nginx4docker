@@ -42,6 +42,24 @@ services:
 
 More examples are in the .examples folder of this repository.
 
+## Config
+
+To secure the webserver it is possible to enable ssl with the config script.
+
+Call the script on a running container
+
+> NOTE: Generation of the Diffie–Hellman curve may take some time.
+
+```
+docker exec <CONTAINER_NAME> sh config.sh enable_ssl
+```
+
+To disable ssl call the disable function
+
+```
+docker exec <CONTAINER_NAME> sh config.sh disable_ssl
+```
+
 ## Extensions
 
 - Logging

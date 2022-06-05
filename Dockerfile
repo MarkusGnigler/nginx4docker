@@ -39,17 +39,8 @@ RUN \
     mkdir /etc/nginx/internal-custom.d && \
     sed -i '/internal-vhost.d\/\*.conf;$/{N;s|$|\n    include /etc/nginx/internal-custom.d/*.conf;\n|g}' /etc/nginx/nginx.conf && \
     \
-    # Create ssl config
+    # Create ssl folder
     mkdir /etc/nginx/ssl && \
-    echo $'\
-ssl_protocols TLSv1.3 TLSv1.2;\n\
-ssl_prefer_server_ciphers on;\n\
-ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;\n\
-\
-# DH parameters and curve
-ssl_dhparam /etc/nginx/ssl/certsdhparam.pem;\n\
-ssl_ecdh_curve secp384r1;\n\
-    ' > /etc/nginx/internal-custom.d/ssl.conf && \
     # Create gzip config
     echo $'\
 gzip  on;\
@@ -69,14 +60,7 @@ VOLUME [ "/etc/nginx/vhost.d" ]
 VOLUME [ "/etc/nginx/ssl" ]
 VOLUME [ "etc/letsencrypt" ]
 
-ENV \
-    SERVER_IP="" \
-    TZ="Europe/Vienna"
-
-EXPOSE \
-    80 \
-    443
-
+COPY --chown=nginx:nginx config.sh /config.sh
 COPY --chown=nginx:nginx envsubst.sh /envsubst.sh
 COPY --chown=nginx:nginx entrypoint.sh /entrypoint.sh
 COPY --chown=nginx:nginx ENV /ENV
@@ -86,9 +70,18 @@ RUN chmod +x /envsubst.sh && \
     chmod 0777 /etc/nginx/ssl && \
     chmod 0777 /etc/nginx/vhost.d && \
     chmod 0777 -R /etc/letsencrypt && \
-    chmod 0777 /etc/nginx/internal-vhost.d
+    chmod 0777 /etc/nginx/internal-vhost.d && \
+    chmod 0777 /etc/nginx/internal-custom.d
 
 USER nginx
+
+ENV \
+    SERVER_IP="" \
+    TZ="Europe/Vienna"
+
+EXPOSE \
+    80 \
+    443
 
 ENTRYPOINT [ "/entrypoint.sh", "tini", "-g", "--" ]
 CMD [ "nginx", "-g", "daemon off;" ]
