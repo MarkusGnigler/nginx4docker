@@ -67,6 +67,7 @@ COPY --chown=nginx:nginx scripts/envsubst.sh /envsubst.sh
 COPY --chown=nginx:nginx scripts/entrypoint.sh /entrypoint.sh
 
 RUN \
+    chmod +x /entrypoint.sh && \
     chmod 0777 /etc/nginx/ssl && \
     chmod 0777 /etc/nginx/vhost.d && \
     chmod 0777 -R /etc/letsencrypt && \
