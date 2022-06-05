@@ -64,13 +64,12 @@ VOLUME [ "/etc/nginx/vhost.d" ]
 VOLUME [ "/etc/nginx/ssl" ]
 VOLUME [ "etc/letsencrypt" ]
 
-COPY --chown=nginx:nginx config.sh /config.sh
-COPY --chown=nginx:nginx envsubst.sh /envsubst.sh
-COPY --chown=nginx:nginx entrypoint.sh /entrypoint.sh
 COPY --chown=nginx:nginx ENV /ENV
+COPY --chown=nginx:nginx scripts/config.sh /config.sh
+COPY --chown=nginx:nginx scripts/envsubst.sh /envsubst.sh
+COPY --chown=nginx:nginx scripts/entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /envsubst.sh && \
-    chmod +x /entrypoint.sh && \
+RUN \
     chmod 0777 /etc/nginx/ssl && \
     chmod 0777 /etc/nginx/vhost.d && \
     chmod 0777 -R /etc/letsencrypt && \
