@@ -3,7 +3,7 @@
 
 n4d extends the original nginx container.
 
-The main purpose is to have a distribution and docker ready nginx container.
+The main purpose is to have a <!-- distribution and  --> docker ready nginx container.
 
 n4d could also be extended with your custom env variables. 
 only mount a file that lists all your env variables to docker `... --mount $(pwd)/CUSTOM_ENV:/ENV ...`
@@ -62,43 +62,42 @@ docker exec <CONTAINER_NAME> sh config.sh disable_ssl
 
 ## Extensions
 
-- Logging
+- Logging 
     I decide after i run a while the bare nginx container to follow docker's best practice and log all nginx logs to StdOut
 
-- Configuration folder
+- Configuration folder 
     To configure the base webserver you can create `.conf` files in conf.d folder.
 
-- Create seperate vhost.d folder
-    In order to seperate the concerns, i think it's a better solution to create a vhost folder link apache does
+- Create seperate vhost.d folder 
+    In order to seperate the concerns, i think it's a better solution to create a vhost folder like apache does.
 
-- Hardening docker
-    To prevent root access i switch to nginx user and map all file patrhs to `/tmp`
+- Hardening docker 
+    * Remove version number `server_tokens off;`
+    * To prevent root access i switch to nginx user and map all file patrhs to `/tmp`
 
 - Add general valid configs for gzip and ssl
     + gzip  on;
 
-    + ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+    + ssl_protocols TLSv1.3 TLSv1.2;
     + ssl_prefer_server_ciphers on;
 
-- Remove version number `server_tokens off;`
-
 - Add ssl_ciphers for better ssl communication
-    Create key on first startup
+    Create cipher key with the build in config script.
     ```
-    [ -f "/etc/nginx/ssl/certsdhparam.pem" ] || libressl dhparam -out /etc/nginx/ssl/certsdhparam.pem 4096
+    sh config.sh enable_ssl
     ```
 
-    Add security header
+    Add security header with "./config enable_ssl" from script.
     ```
-    ssl_protocols TLSv1.3 TLSv1.2;\n\
-    ssl_prefer_server_ciphers on;\n\
-    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;\n\
-    \
-    # DH parameters and curve
-    ssl_dhparam /etc/nginx/ssl/certsdhparam.pem;\n\
-    ssl_ecdh_curve secp384r1;\n\
+    ssl_protocols TLSv1.3 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;
+
+    # DH parameters and curv
+    ssl_dhparam /etc/nginx/ssl/certsdhparam.pem;
+    ssl_ecdh_curve secp384r1;
     ```
-    
+
 ## Environment variables
 
 - $TZ<br>
