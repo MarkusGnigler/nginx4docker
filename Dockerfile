@@ -6,13 +6,13 @@ LABEL \
 
 RUN \
     apk add --no-cache --update \
-        tini \
-        tzdata \
-        libressl \
+    tini \
+    tzdata \
+    libressl \
     && \
     # ssl
     mkdir /etc/letsencrypt && \
-    cp /etc/ssl1.1/openssl.cnf /etc/ssl/openssl.cnf && \
+    #cp /etc/ssl1.1/openssl.cnf /etc/ssl/openssl.cnf && \
     \
     # Remove nginx version
     sed -i 's|http {|http {\n    server_tokens off;|g' /etc/nginx/nginx.conf && \
@@ -39,21 +39,21 @@ RUN \
     # Create ssl folder & standard config
     mkdir /etc/nginx/ssl && \
     echo $'\
-ssl_protocols TLSv1.3 TLSv1.2;\n\
-ssl_prefer_server_ciphers on;\n\
+    ssl_protocols TLSv1.3 TLSv1.2;\n\
+    ssl_prefer_server_ciphers on;\n\
     ' > /etc/nginx/internal-config.d/ssl.conf && \
     # Create gzip config
     echo $'\
-gzip  on;\
+    gzip  on;\
     ' > /etc/nginx/internal-config.d/gzip.conf && \
     \
     # Create temp and cache file options for user nginx
     echo $'\
-client_body_temp_path /tmp/client_body;\n\
-fastcgi_temp_path /tmp/fastcgi_temp;\n\
-proxy_temp_path /tmp/proxy_temp;\n\
-scgi_temp_path /tmp/scgi_temp;\n\
-uwsgi_temp_path /tmp/uwsgi_temp;\n\
+    client_body_temp_path /tmp/client_body;\n\
+    fastcgi_temp_path /tmp/fastcgi_temp;\n\
+    proxy_temp_path /tmp/proxy_temp;\n\
+    scgi_temp_path /tmp/scgi_temp;\n\
+    uwsgi_temp_path /tmp/uwsgi_temp;\n\
     ' > /etc/nginx/internal-config.d/cache-file-options.conf
 
 VOLUME [ "/etc/nginx/conf.d" ]
