@@ -1,7 +1,7 @@
-FROM nginx:1-alpine
+FROM nginx:1.25.3-alpine
 
 LABEL \ 
-    version=1.0.0 \
+    version=1.0.1 \
     maintainer="Markus Gnigler <markus.gnigler@bit-shifter.at>"
 
 RUN \
