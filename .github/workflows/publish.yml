@@ -34,3 +34,20 @@ jobs:
           --tag ghcr.io/markusgnigler/n4d:$(cat VERSION | awk -F '.' '{ print $1,$2,$3 }' | tr ' ' '.') \
           --push \
           .
+
+          
+    # - name: Set up Docker Buildx
+    #   uses: docker/setup-buildx-action@v3
+      
+    # - name: Build and push
+    #   uses: docker/build-push-action@v5
+    #   with:
+    #       push: true
+    #       secrets: |
+    #         GIT_AUTH_TOKEN=${{ secrets.MYTOKEN }}
+    #       tags: |
+    #           ghcr.io/markusgnigler/n4d:latest
+    #           ghcr.io/markusgnigler/n4d:$(cat VERSION | awk -F '.' '{ print $1 }' | tr ' ' '.')
+    #           ghcr.io/markusgnigler/n4d:$(cat VERSION | awk -F '.' '{ print $1,$2 }' | tr ' ' '.')
+    #           ghcr.io/markusgnigler/n4d:$(cat VERSION | awk -F '.' '{ print $1,$2,$3 }' | tr ' ' '.')
+          
