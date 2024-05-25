@@ -5,7 +5,7 @@
 #    echo "ssl cipher key created ..."
 # }
 
-[ -f "/etc/nginx/ssl/certsdhparam.pem" ] && sh /config.sh enable_ssl
+[ -f "/etc/nginx/ssl/certsdhparam.pem" ] && sh /config.sh create_ssl_headers
 
 source /envsubst.sh
 
