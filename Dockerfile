@@ -1,4 +1,4 @@
-FROM nginx:1.25.3-alpine
+FROM nginx:1.29.1-alpine
 
 LABEL \ 
     version=1.0.1 \
